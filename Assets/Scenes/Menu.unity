@@ -2382,6 +2382,7 @@ MonoBehaviour:
   PurpleYButton: {fileID: 1795841657}
   YellowYButton: {fileID: 1615040947}
   ContinueButton: {fileID: 1477782122}
+  NewGameButton: {fileID: 672764237}
 --- !u!4 &919625774
 Transform:
   m_ObjectHideFlags: 0

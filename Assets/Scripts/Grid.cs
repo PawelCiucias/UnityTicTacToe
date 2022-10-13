@@ -14,16 +14,11 @@ public class TicTacToeGrid
 
     public int[,] Board { get { return board; } }
 
-    public bool InputValue(int x, int y, Piece p)
+    public bool isValidMove(int x, int y)
     {
         Func<int, bool> inRangePredicate = (int v) => v > -1 && v < 3;
 
-        if (inRangePredicate(x) && inRangePredicate(y) && board[x, y] == 0) {
-            board[x, y] = (int)p;
-            return true;
-        }
-
-        return false;
+        return inRangePredicate(x) && inRangePredicate(y) && board[x, y] == 0;
     }
 
 

@@ -31,6 +31,7 @@ public class MenuHandler : MonoBehaviour
     Material playerMaterialX;
     Material playerMaterialY;
     public GameObject ContinueButton;
+    public Button NewGameButton;
 
     public void StartGame()
     {
@@ -47,6 +48,11 @@ public class MenuHandler : MonoBehaviour
     private Player GetPlayerType(string player, Piece p)
     {
         var m = p == Piece.X ? playerMaterialX : playerMaterialY;
+
+        switch(player.ToLower()){
+            case "ai easy":
+                return new PlayerAiEasy(m);
+        }
         return new Player(m);
     }
 
@@ -168,5 +174,13 @@ public class MenuHandler : MonoBehaviour
     }
 
 
-
+    // Update is called once per frame
+    void Update()
+    {
+        if(this.NewGameButton.enabled = (this.playerMaterialX != null && this.playerMaterialY != null))
+            enableButton(this.NewGameButton);
+        else
+            disableButton(this.NewGameButton);
+        
+    }
 }
