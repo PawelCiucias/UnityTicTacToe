@@ -16,17 +16,11 @@ namespace TicTacToe.Models
         {
             var randomX = -1;
             var randomY = -1;
-
+            
             do
             {
                 randomX = Random.Range(0, 3);
                 randomY = Random.Range(0, 3);
-
-                if (MainManager.Instance.isGameOver)
-                {
-                    move =(-1,-1);
-                    return false;
-                }
             }
             while (!game.isValidMove((randomX, randomY)));
 

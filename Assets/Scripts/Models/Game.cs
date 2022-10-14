@@ -42,8 +42,10 @@ namespace TicTacToe.Models
                 
                 grid[move.X, move.Y] = (int)moved;
                 
-                if(isGameOver())
-                    this.GameEndedEvent.Invoke(this, new WinnerEventArgs(moved));
+                SymbolEnum? winner;
+                if(isGameOver(out winner)){
+                    this.GameEndedEvent.Invoke(this, new WinnerEventArgs(winner));
+                }
                 
                 return true;
             }
@@ -51,8 +53,9 @@ namespace TicTacToe.Models
             return false;
         }
 
-        private bool isGameOver()
+        private bool isGameOver(out SymbolEnum? winner)
         {
+            winner = moveCount % 2 == 1 ? SymbolEnum.X : SymbolEnum.O;
             Debug.Log("check if is game over");
             //test rows
             for (var x = 0; x < 3; x++) {
@@ -85,7 +88,15 @@ namespace TicTacToe.Models
             else if (backSlashTotal == -3)
                 return true;
 
-            return false;
+
+
+            for(var x = 0; x < 3; x++)
+                for(var y = 0; y < 3; y++)
+                    if(grid[x,y] == 0)
+                        return false;
+                
+            winner = null;
+            return true;
         }
 
         public bool isMoveX()

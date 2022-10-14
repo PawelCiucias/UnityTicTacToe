@@ -42,9 +42,8 @@ public class MenuHandler : MonoBehaviour
         var playerX = GetPlayerType(PlayerX.text, SymbolEnum.X);
         var playerY = GetPlayerType(PlayerY.text, SymbolEnum.O);
 
-        MainManager.Instance.ResetGame(playerX, playerY);
+        GameSettings.Instance.Init(playerX, playerY);
         SceneManager.LoadScene(1);
-
     }
 
 
@@ -172,10 +171,10 @@ public class MenuHandler : MonoBehaviour
     private void Awake()
     {
         var continueButtonExists = ContinueButton != null;
-        var mainManagerIsNull = MainManager.Instance == null;
+        var gameSettingsAreNull = GameSettings.Instance == null;
 
-        if (continueButtonExists && mainManagerIsNull)
-            ContinueButton.SetActive(false);
+        // if (continueButtonExists && gameSettingsAreNull)
+        //     ContinueButton.SetActive(false);
     }
 
 

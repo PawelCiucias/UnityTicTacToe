@@ -88,8 +88,7 @@ namespace TicTacToe.Models
                 }
             }
 
-                  move = (-1, -1);
-            return false;
+            return base.ChooseMove(game, piece, out move);
             
         }
     }

@@ -16,17 +16,17 @@ public class BoxClicker : MonoBehaviour
 
 
     void Awake(){
-        var mm = MainManager.Instance;
+        var gs = GameSettings.Instance;
         
-        Array.ForEach(xPrefab.GetComponentsInChildren<MeshRenderer>(), m => m.material = mm.PlayerX.SelectedMaterial);
-        this.explosionParticleX.GetComponent<ParticleSystemRenderer>().material = mm.PlayerX.SelectedMaterial;
+        Array.ForEach(xPrefab.GetComponentsInChildren<MeshRenderer>(), m => m.material = gs.PlayerX.SelectedMaterial);
+        this.explosionParticleX.GetComponent<ParticleSystemRenderer>().material = gs.PlayerX.SelectedMaterial;
 
-        this.explosionParticleO.GetComponent<ParticleSystemRenderer>().material = mm.PlayerO.SelectedMaterial;
-        oPrefab.GetComponent<MeshRenderer>().material = mm.PlayerO.SelectedMaterial;
+        this.explosionParticleO.GetComponent<ParticleSystemRenderer>().material = gs.PlayerO.SelectedMaterial;
+        oPrefab.GetComponent<MeshRenderer>().material = gs.PlayerO.SelectedMaterial;
     }
     private void OnMouseDown()
     {
-        var mm = MainManager.Instance;
+        var mm = GameObject.FindObjectOfType<MainManager>();
         //if left mouse down
         if (Input.GetMouseButtonDown(0) && !mm.IsAiMove())
         {
