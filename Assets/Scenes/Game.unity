@@ -377,7 +377,8 @@ MonoBehaviour:
   Y: 1
   explosionParticleX: {fileID: 1145368608}
   explosionParticleO: {fileID: 320648496}
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  oPrefab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
+  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}
 --- !u!1 &437377596
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,7 +561,8 @@ MonoBehaviour:
   Y: 1
   explosionParticleX: {fileID: 1145368608}
   explosionParticleO: {fileID: 320648496}
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  oPrefab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
+  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}
 --- !u!1001 &525083839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -972,7 +974,8 @@ MonoBehaviour:
   Y: 0
   explosionParticleX: {fileID: 1145368608}
   explosionParticleO: {fileID: 320648496}
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  oPrefab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
+  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1080,7 +1083,7 @@ GameObject:
   - component: {fileID: 727232103}
   m_Layer: 5
   m_Name: GameOver_TXT
-  m_TagString: Untagged
+  m_TagString: GameOver_TXT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1125,7 +1128,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GAME OVER
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1231,8 +1234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e9862f2b408e141bd3107341d64757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oPrfab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
-  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}
   GameOverPanel: {fileID: 596489415}
   text: {fileID: 775674608}
 --- !u!4 &747574686
@@ -1263,7 +1264,7 @@ GameObject:
   - component: {fileID: 775674608}
   m_Layer: 5
   m_Name: GameResult_TXT
-  m_TagString: GameOver_TXT
+  m_TagString: GameResult_TXT
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1308,7 +1309,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: It's a tie game
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1499,7 +1500,8 @@ MonoBehaviour:
   Y: 0
   explosionParticleX: {fileID: 1145368608}
   explosionParticleO: {fileID: 320648496}
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  oPrefab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
+  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1703,7 +1705,8 @@ MonoBehaviour:
   Y: 0
   explosionParticleX: {fileID: 1145368608}
   explosionParticleO: {fileID: 320648496}
-  playerColor: {r: 1, g: 0.4829951, b: 0, a: 0}
+  oPrefab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
+  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}
 --- !u!1001 &1451030773
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2073,7 +2076,8 @@ MonoBehaviour:
   Y: 2
   explosionParticleX: {fileID: 1145368608}
   explosionParticleO: {fileID: 320648496}
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  oPrefab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
+  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}
 --- !u!1 &1903423622
 GameObject:
   m_ObjectHideFlags: 0
@@ -2188,7 +2192,8 @@ MonoBehaviour:
   Y: 1
   explosionParticleX: {fileID: 1145368608}
   explosionParticleO: {fileID: 320648496}
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  oPrefab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
+  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}
 --- !u!1 &2009972163
 GameObject:
   m_ObjectHideFlags: 0
@@ -2303,7 +2308,8 @@ MonoBehaviour:
   Y: 2
   explosionParticleX: {fileID: 1145368608}
   explosionParticleO: {fileID: 320648496}
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  oPrefab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
+  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}
 --- !u!1 &2066633817
 GameObject:
   m_ObjectHideFlags: 0
@@ -2462,4 +2468,5 @@ MonoBehaviour:
   Y: 2
   explosionParticleX: {fileID: 1145368608}
   explosionParticleO: {fileID: 320648496}
-  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  oPrefab: {fileID: 7981626137655486299, guid: dd1832d8bece27f47a4b0f8fdda39c04, type: 3}
+  xPrefab: {fileID: 6906088176163929897, guid: 74a518ecd62a32449bf5539c37abd5e9, type: 3}

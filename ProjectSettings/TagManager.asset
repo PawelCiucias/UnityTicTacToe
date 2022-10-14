@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameOver_PNL
   - GameOver_TXT
+  - GameResult_TXT
   layers:
   - Default
   - TransparentFX

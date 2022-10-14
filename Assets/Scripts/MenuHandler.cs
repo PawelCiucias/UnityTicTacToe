@@ -5,7 +5,10 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System;
-using static TicTacToeGrid;
+
+using TicTacToe.Constants;
+using TicTacToe.Interfaces;
+using TicTacToe.Models;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -36,8 +39,8 @@ public class MenuHandler : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("start game clicked");
-        var playerX = GetPlayerType(PlayerX.text, Piece.X);
-        var playerY = GetPlayerType(PlayerY.text, Piece.O);
+        var playerX = GetPlayerType(PlayerX.text, SymbolEnum.X);
+        var playerY = GetPlayerType(PlayerY.text, SymbolEnum.O);
 
         MainManager.Instance.ResetGame(playerX, playerY);
         SceneManager.LoadScene(1);
@@ -45,13 +48,15 @@ public class MenuHandler : MonoBehaviour
     }
 
 
-    private Player GetPlayerType(string player, Piece p)
+    private IPlayer GetPlayerType(string player, SymbolEnum p)
     {
-        var m = p == Piece.X ? playerMaterialX : playerMaterialY;
+        var m = p == SymbolEnum.X ? playerMaterialX : playerMaterialY;
 
         switch(player.ToLower()){
             case "ai easy":
                 return new PlayerAiEasy(m);
+            case "ai medium":
+                return new PlayerAiMedium(m);
         }
         return new Player(m);
     }

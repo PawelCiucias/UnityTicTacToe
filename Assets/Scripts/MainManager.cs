@@ -1,71 +1,68 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
+using TicTacToe.Constants;
+using TicTacToe.Interfaces;
+using TicTacToe.Models;
 
 public class MainManager : MonoBehaviour
 {
-    private int moveCount;
     public static MainManager Instance { get; private set; }
-    private TicTacToeGrid grid;
-    public Player PlayerX { get; private set; }
-    public Player PlayerO { get; private set; }
+    
+    public IPlayer PlayerX { get; private set; }
+    public IPlayer PlayerO { get; private set; }
 
-    public GameObject oPrfab;
-    public GameObject xPrefab;
+    private IGame currentGame;
 
+    public bool isGameOver {get;  private set;}
 
-    public GameObject  GameOverPanel;
-    public TextMeshProUGUI text;
-
-    public void ResetGame(Player playerX, Player playerO)
+    public void ResetGame(IPlayer playerX, IPlayer playerO)
     {
-        Debug.Log("rest game");
-        this.moveCount = 0;
-        this.grid = new TicTacToeGrid();
         this.PlayerX = playerX;
         this.PlayerO = playerO;
+
+        if(this.currentGame != null)
+            this.currentGame.GameEndedEvent -= GameOverEvent;
+
+        this.currentGame = new Game();
+        this.currentGame.GameEndedEvent += GameOverEvent;
+        this.isGameOver = false;
+        
 
         Debug.Log($"Player X is {playerX.GetType()}");
         Debug.Log($"Player O is {playerO.GetType()}");
     }
 
-    public TicTacToeGrid.Piece getPieceToMove()
-    {
-        return moveCount % 2 == 1 ? TicTacToeGrid.Piece.O : TicTacToeGrid.Piece.X;
-    }
+    private void GameOverEvent (object sender, WinnerEventArgs args){
+        var gameOver = GameObject.FindGameObjectWithTag("GameOver_TXT").GetComponent<TextMeshProUGUI>();
+        gameOver.text = "GAME OVER!!";
+        this.isGameOver = true;
+        var gameResult = GameObject.FindGameObjectWithTag("GameResult_TXT").GetComponent<TextMeshProUGUI>();
+        
+        if(args.Winner.HasValue)
+            gameResult.text = $"{args.Winner.Value} is the winner!!!";
+        else
+            gameResult.text = $"It's a tie game";
 
+    }
     public bool IsAiMove()
     {
-        if (getPieceToMove() == TicTacToeGrid.Piece.X)
+        if (currentGame.isMoveX())
             return PlayerX.GetType() != typeof(Player);
         return PlayerO.GetType() != typeof(Player);
     }
-    public bool ExecuteMove(int x, int y)
+
+    public SymbolEnum? ExecuteMove((int X,int Y) move)
     {
-        Debug.Log("execute move" + this.moveCount);
-        if (this.grid.Board[x, y] == 0)
-        {
-            var pieceToMove = getPieceToMove();
-            this.grid.Board[x, y] = (int)pieceToMove;
-
-            var square = GetSquare(x, y);
-            var prefab = pieceToMove == TicTacToeGrid.Piece.O ? oPrfab : xPrefab;
-
-            if (pieceToMove == TicTacToeGrid.Piece.X)
-                Array.ForEach(prefab.GetComponentsInChildren<MeshRenderer>(), m => m.material = PlayerX.SelectedMaterial);
-            else
-                prefab.GetComponent<MeshRenderer>().material = PlayerO.SelectedMaterial;
-
-            Instantiate(prefab, square.gameObject.transform.position, prefab.transform.rotation);
-            this.isGameOver = (++this.moveCount) > 8;
-            Debug.Log("move count is now " + this.moveCount);
-            return true;
+        SymbolEnum? moved;
+        if(!isGameOver && currentGame.ExecuteMove(move, out moved)){
+            Debug.Log("executed move " + moved);
+            return moved;
         }
-        return false;
+        return null;
     }
 
     GameObject GetSquare(int x, int y)
@@ -79,13 +76,9 @@ public class MainManager : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("create main manager");
         if (MainManager.Instance == null)
         {
             Instance = this;
-
-            //DontDestorOnLoad marks the MainManager GameObject attached to this script 
-            //not to be destroyed when the scene changes.
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -95,76 +88,44 @@ public class MainManager : MonoBehaviour
     }
 
 
-
-    // Update is called once per frame
-    void Start()
-    {
-        Debug.Log("start main manager");
-      
-
-    }
-
     // Update is called once per frame
     
     bool WaitForAiToMove = false;
-    public bool isGameOver {get; private set; } = false;
+
     void Update()
     {
-        if(this.GameOverPanel != null)
-            this.GameOverPanel.SetActive(this.isGameOver);
-        
-        if (PlayerX == null || PlayerO == null || WaitForAiToMove || isGameOver)
+        if (PlayerX == null || PlayerO == null || WaitForAiToMove)
             return;
 
-        if (getPieceToMove() == TicTacToeGrid.Piece.X && PlayerX.GetType() != typeof(Player))
+        if (IsAiMove())
         {
             WaitForAiToMove = true;
-            int[] coordinates;
-            Debug.Log("AI to move Over:" + this.isGameOver + " move count = " + this.moveCount);
-            if (PlayerX.ChooseMove(this.grid, TicTacToeGrid.Piece.X, out coordinates))
-                StartCoroutine("AiMove", coordinates);
+            (int X, int Y) move;
+            if(currentGame.isMoveX() && PlayerX.ChooseMove(this.currentGame, SymbolEnum.X, out move))
+                StartCoroutine("AiMove", (move, SymbolEnum.X));
+            else if(!currentGame.isMoveX() && PlayerO.ChooseMove(this.currentGame, SymbolEnum.O, out move))
+                StartCoroutine("AiMove", (move, SymbolEnum.O));
+            else
+                WaitForAiToMove = false;
+                
         }
-
-        else if (getPieceToMove() == TicTacToeGrid.Piece.O && PlayerO.GetType() != typeof(Player))
-        {
-            WaitForAiToMove = true;
-            int[] coordinates;
-            Debug.Log("AI to move Over:" + this.isGameOver + " move count = " + this.moveCount);
-            if (PlayerO.ChooseMove(this.grid, TicTacToeGrid.Piece.O, out coordinates))
-                StartCoroutine("AiMove", coordinates);
-        }
-
     }
 
-    IEnumerator AiMove(object coordinates)
+    IEnumerator AiMove(object data)
     {
-        var c = (int[])coordinates;
+        var d = (((int X,int Y) move, SymbolEnum symbol)) data;
 
         yield return new WaitForSeconds(2);
 
-        if (ExecuteMove(c[0], c[1]))
+        if (ExecuteMove((d.move.X, d.move.Y)) != null)
         {
-            var square = GetSquare(c[0], c[1]);
+            var square = GetSquare(d.move.X, d.move.Y);
 
-            square.GetComponent<BoxClicker>().blowUpSquare(TicTacToeGrid.Piece.O);
+            square.GetComponent<BoxClicker>().blowUpSquare(d.symbol);
             WaitForAiToMove = false;
         }
     }
 
     
-    // called first
-    void OnEnable()
-    {
-        Debug.Log("OnEnable called");
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    // called second
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log("OnSceneLoaded: " + scene.name);
-        Debug.Log(mode);
-        this.GameOverPanel = GameObject.FindGameObjectWithTag("GameOver_PNL");
-        this.GameOverPanel.SetActive(false);
-    }
+ 
 }

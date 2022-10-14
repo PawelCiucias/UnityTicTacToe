@@ -2,60 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TicTacToe.Constants;
+using System;
 
 public class BoxClicker : MonoBehaviour
 {
     public int X;
     public int Y;
-    // Start is called before the first frame update
     public ParticleSystem explosionParticleX;
     public ParticleSystem explosionParticleO;
-    public Color playerColor;
+    public GameObject oPrefab;
+    public GameObject xPrefab;
 
+
+    void Awake(){
+        var mm = MainManager.Instance;
+        
+        Array.ForEach(xPrefab.GetComponentsInChildren<MeshRenderer>(), m => m.material = mm.PlayerX.SelectedMaterial);
+        this.explosionParticleX.GetComponent<ParticleSystemRenderer>().material = mm.PlayerX.SelectedMaterial;
+
+        this.explosionParticleO.GetComponent<ParticleSystemRenderer>().material = mm.PlayerO.SelectedMaterial;
+        oPrefab.GetComponent<MeshRenderer>().material = mm.PlayerO.SelectedMaterial;
+    }
     private void OnMouseDown()
     {
-        Debug.Log("onMouseDown");
         var mm = MainManager.Instance;
         //if left mouse down
-        if (Input.GetMouseButtonDown(0) && !mm.IsAiMove() && mm.ExecuteMove(X, Y))
+        if (Input.GetMouseButtonDown(0) && !mm.IsAiMove())
         {
-            if (this.explosionParticleX != null)
+            var moved = mm.ExecuteMove((X, Y));
+
+            if (moved == SymbolEnum.X)
             {
-                if (mm.getPieceToMove() == TicTacToeGrid.Piece.O)
-                {
-                    var m = mm.PlayerX.SelectedMaterial;
-                    this.explosionParticleX.GetComponent<ParticleSystemRenderer>().material = m;
-                    this.explosionParticleX.transform.position = this.gameObject.transform.position;
-                    this.explosionParticleX.Play();
-                }
-                else
-                {
-                    var m = mm.PlayerO.SelectedMaterial;
-                    this.explosionParticleO.GetComponent<ParticleSystemRenderer>().material = m;
-                    this.explosionParticleO.transform.position = this.gameObject.transform.position;
-                    this.explosionParticleO.Play();
-                }
+                this.explosionParticleX.transform.position = this.gameObject.transform.position;
+                this.explosionParticleX.Play();
+                Instantiate(xPrefab, this.gameObject.transform.position, xPrefab.transform.rotation);
+                StartCoroutine("hideMe");
+            }
+            else if (moved == SymbolEnum.O)
+            {
+                this.explosionParticleO.transform.position = this.gameObject.transform.position;
+                this.explosionParticleO.Play();
+                Instantiate(oPrefab, this.gameObject.transform.position, oPrefab.transform.rotation);
+                StartCoroutine("hideMe");
             }
 
-            StartCoroutine("hideMe");
+          
+            
         }
     }
 
-    public void blowUpSquare(TicTacToeGrid.Piece p)
+    public void blowUpSquare(SymbolEnum p)
     {
-        if (p == TicTacToeGrid.Piece.X)
+        if (p == SymbolEnum.X)
         {
-            var m = MainManager.Instance.PlayerX.SelectedMaterial;
-            this.explosionParticleX.GetComponent<ParticleSystemRenderer>().material = m;
             this.explosionParticleX.transform.position = this.gameObject.transform.position;
             this.explosionParticleX.Play();
+            Instantiate(xPrefab, this.gameObject.transform.position, xPrefab.transform.rotation);
         }
         else
         {
-            var m = MainManager.Instance.PlayerO.SelectedMaterial;
-            this.explosionParticleO.GetComponent<ParticleSystemRenderer>().material = m;
             this.explosionParticleO.transform.position = this.gameObject.transform.position;
             this.explosionParticleO.Play();
+            Instantiate(oPrefab, this.gameObject.transform.position, oPrefab.transform.rotation);
         }
 
         StartCoroutine("hideMe");
