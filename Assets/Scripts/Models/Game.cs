@@ -14,6 +14,9 @@ namespace TicTacToe.Models
 
         
         int moveCount = 0;
+
+
+        //ENCAPSULATION
         public int[,] Board { get { return grid; } }
 
         public EventHandler<WinnerEventArgs> GameEndedEvent { get; set; }

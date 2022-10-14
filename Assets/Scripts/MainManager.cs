@@ -53,6 +53,7 @@ public class MainManager : MonoBehaviour
     public bool IsAiMove()
     {
         var gs = GameSettings.Instance;
+        //ABSTRACTION all game logic is hidden away in it,s own class
         if (currentGame.isMoveX())
             return gs.PlayerX.GetType() != typeof(Player);
         return gs.PlayerO.GetType() != typeof(Player);
@@ -96,6 +97,7 @@ public class MainManager : MonoBehaviour
         {
             WaitForAiToMove = true;
             (int X, int Y) move;
+            // INHERITANCE & PolyMorphism based on the type of Player, differnt move logic fires
             if(currentGame.isMoveX() && gs.PlayerX.ChooseMove(this.currentGame, SymbolEnum.X, out move))
                 StartCoroutine("AiMove", (move, SymbolEnum.X));
             else if(!currentGame.isMoveX() && gs.PlayerO.ChooseMove(this.currentGame, SymbolEnum.O, out move))
