@@ -20,6 +20,7 @@ public class MainManager : MonoBehaviour
 
     public void NewGame(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);  
+        ResetGame();
     }
     public void ResetGame()
     {
@@ -91,7 +92,7 @@ public class MainManager : MonoBehaviour
         if (gs.PlayerX == null || gs.PlayerO == null || WaitForAiToMove)
             return;
 
-        if (IsAiMove())
+        if (IsAiMove() && !isGameOver)
         {
             WaitForAiToMove = true;
             (int X, int Y) move;
@@ -107,9 +108,11 @@ public class MainManager : MonoBehaviour
 
     IEnumerator AiMove(object data)
     {
+        
         var d = (((int X,int Y) move, SymbolEnum symbol)) data;
-
+        Debug.Log($"{d.symbol} ai about to place on {d.move.X} {d.move.Y}");
         yield return new WaitForSeconds(1);
+
 
         if (ExecuteMove((d.move.X, d.move.Y)) != null)
         {
@@ -121,5 +124,9 @@ public class MainManager : MonoBehaviour
     }
 
     
+    private void OnDestroy()
+    {
+        this.currentGame.GameEndedEvent -= GameOverEvent;
+    }
  
 }

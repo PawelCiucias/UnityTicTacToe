@@ -173,8 +173,8 @@ public class MenuHandler : MonoBehaviour
         var continueButtonExists = ContinueButton != null;
         var gameSettingsAreNull = GameSettings.Instance == null;
 
-        // if (continueButtonExists && gameSettingsAreNull)
-        //     ContinueButton.SetActive(false);
+        if (continueButtonExists && gameSettingsAreNull)
+            ContinueButton.SetActive(false);
     }
 
 

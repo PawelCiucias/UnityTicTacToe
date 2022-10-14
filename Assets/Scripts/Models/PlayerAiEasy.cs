@@ -14,17 +14,24 @@ namespace TicTacToe.Models
 
         public override bool ChooseMove(IGame game, SymbolEnum piece, out (int X, int Y) move)
         {
+            Debug.Log($"{piece} choosing move");
             var randomX = -1;
             var randomY = -1;
+            var attempts = 0;
             
             do
             {
                 randomX = Random.Range(0, 3);
                 randomY = Random.Range(0, 3);
+                move = (randomX, randomY);
+                if(attempts++ > 100){
+                    return false;
+                }
+                    
             }
             while (!game.isValidMove((randomX, randomY)));
 
-            move = (randomX, randomY);
+         
             return true;
         }
     }
